@@ -9,7 +9,10 @@ import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_register.*
+import java.util.*
 
 class RegisterActivity : AppCompatActivity() {
     /**By declaring a companion object inside our class,
@@ -92,10 +95,61 @@ class RegisterActivity : AppCompatActivity() {
 
                 // else if successful
                 Log.d("Main", "Successfully created user with uid: ${it.result.user.uid}")
+                uploadImageToFirebaseStorage()
             }
             .addOnFailureListener{
                 Log.d("Main", "Failed to create user: ${it.message}")
                 Toast.makeText(this, "Failed to create user: ${it.message}", Toast.LENGTH_SHORT).show()
             }
     }
+
+    private fun uploadImageToFirebaseStorage() {
+        if (selectedPhotoUri == null) return
+
+        //(Java UUID Generator) to generate unique ID
+        val filename = UUID.randomUUID().toString()
+
+        // choose the place in folder called images
+        val ref = FirebaseStorage.getInstance().getReference("/images/$filename")
+
+        ref.putFile(selectedPhotoUri!!)
+            .addOnSuccessListener {
+                Log.d(TAG, "Successfully uploaded image: ${it.metadata?.path}")
+
+                ref.downloadUrl.addOnSuccessListener {
+                    Log.d(TAG, "File Location: $it")
+
+                    saveUserToFirebaseDatabase(it.toString())
+                }
+            }
+            .addOnFailureListener {
+                Log.d(TAG, "Failed to upload image to storage: ${it.message}")
+            }
+    }
+
+    /**
+     * add users data to firebase database
+     */
+    private fun saveUserToFirebaseDatabase(profileImageUrl: String) {
+        val uid = FirebaseAuth.getInstance().uid ?: ""
+        // ref is look like a key in json need a value to set to it :)
+        val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
+
+        val user = User(uid, username_edittext_register.text.toString(), profileImageUrl)
+
+        /**
+         * in the first time you call setValue method
+         * the key "users" will be created & the user id will be saved as key for every user
+         * if the user call this method again values will added as a tree
+         */
+        ref.setValue(user)
+            .addOnSuccessListener {
+                Log.d(TAG, "Finally we saved the user to Firebase Database")
+            }
+            .addOnFailureListener {
+                Log.d(TAG, "Failed to set value to database: ${it.message}")
+            }
+    }
 }
+// class in kotlin :d
+class User(val uid: String, val username: String, val profileImageUrl: String)

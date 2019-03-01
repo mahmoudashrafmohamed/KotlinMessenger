@@ -30,8 +30,13 @@ dependencies {
     // firebase
     implementation 'com.google.firebase:firebase-core:16.0.1'
     implementation 'com.google.firebase:firebase-auth:16.0.2'
+    // storage is used to save files or imgs
+    implementation 'com.google.firebase:firebase-storage:16.0.1'
+    // database to save fields or cells
+    implementation 'com.google.firebase:firebase-database:16.0.1'
     // circle
     implementation 'de.hdodenhof:circleimageview:2.2.0'
+
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
