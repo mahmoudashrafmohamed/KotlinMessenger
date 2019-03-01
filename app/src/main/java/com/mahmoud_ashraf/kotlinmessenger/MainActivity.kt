@@ -1,5 +1,6 @@
 package com.mahmoud_ashraf.kotlinmessenger
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -23,6 +24,10 @@ class MainActivity : AppCompatActivity() {
 
         already_have_account_text_view.setOnClickListener {
             Log.d("MainActivity", "Try to show login activity")
+
+            // launch the login activity somehow
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
         }
 
 
