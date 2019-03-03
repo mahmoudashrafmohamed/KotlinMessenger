@@ -1,4 +1,4 @@
-package com.mahmoud_ashraf.kotlinmessenger
+package com.mahmoud_ashraf.kotlinmessenger.registerlogin
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.mahmoud_ashraf.kotlinmessenger.messages.LatestMessagesActivity
+import com.mahmoud_ashraf.kotlinmessenger.R
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {

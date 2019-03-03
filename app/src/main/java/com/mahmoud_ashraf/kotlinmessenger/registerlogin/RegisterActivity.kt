@@ -1,4 +1,4 @@
-package com.mahmoud_ashraf.kotlinmessenger
+package com.mahmoud_ashraf.kotlinmessenger.registerlogin
 
 import android.app.Activity
 import android.content.Intent
@@ -11,6 +11,9 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
+import com.mahmoud_ashraf.kotlinmessenger.messages.LatestMessagesActivity
+import com.mahmoud_ashraf.kotlinmessenger.R
+import com.mahmoud_ashraf.kotlinmessenger.models.User
 import kotlinx.android.synthetic.main.activity_register.*
 import java.util.*
 
@@ -30,6 +33,7 @@ class RegisterActivity : AppCompatActivity() {
         val email = username_edittext_register.text.toString()
         val password = password_edittext_register.text.toString()
 
+        // in kotlin FORGET findViewById ..... ;)
         register_button_register.setOnClickListener {
             performRegister()
         }
@@ -155,5 +159,4 @@ class RegisterActivity : AppCompatActivity() {
             }
     }
 }
-// class in kotlin :d
-class User(val uid: String, val username: String, val profileImageUrl: String)
+
