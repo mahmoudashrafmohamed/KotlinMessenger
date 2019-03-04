@@ -37,6 +37,10 @@ class NewMessageActivity : AppCompatActivity() {
 
         fetchUsers()
     }
+    // static
+    companion object {
+        val USER_KEY = "USER_KEY"
+    }
     private fun fetchUsers() {
         val ref = FirebaseDatabase.getInstance().getReference("/users")
         ref.addListenerForSingleValueEvent(object: ValueEventListener {
@@ -54,7 +58,14 @@ class NewMessageActivity : AppCompatActivity() {
                 }
                 // add click listener on rv item in Groupe lib
                 adapter.setOnItemClickListener { item, view ->
+
+                    // casting
+                    val userItem = item as UserItem
+
                    val intent = Intent(view.context,ChatLogActivity::class.java)
+                    //intent.putExtra(USER_KEY, userItem.user.username)
+                    // need to parcel to send object
+                    intent.putExtra(USER_KEY, userItem.user)
                     startActivity(intent)
                     finish()
                 }
