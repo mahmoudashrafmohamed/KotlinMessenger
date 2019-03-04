@@ -20,10 +20,17 @@
             </intent-filter>
         </activity>
         <activity android:name=".messages.NewMessageActivity">
+
             <!-- add back button -->
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
-                       android:value=".messages.LatestMessagesActivity"
-                    />
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value=".messages.LatestMessagesActivity"/>
+        </activity>
+        <activity android:name=".messages.ChatLogActivity">
+            <!-- add back button -->
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value=".messages.LatestMessagesActivity"/>
         </activity>
     </application>
 

@@ -1,5 +1,6 @@
 package com.mahmoud_ashraf.kotlinmessenger.messages
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -51,12 +52,16 @@ class NewMessageActivity : AppCompatActivity() {
                         adapter.add(UserItem(user))
                     }
                 }
-
+                // add click listener on rv item in Groupe lib
+                adapter.setOnItemClickListener { item, view ->
+                   val intent = Intent(view.context,ChatLogActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
                 recyclerview_newmessage.adapter = adapter
             }
 
             override fun onCancelled(p0: DatabaseError) {
-
             }
         })
     }
