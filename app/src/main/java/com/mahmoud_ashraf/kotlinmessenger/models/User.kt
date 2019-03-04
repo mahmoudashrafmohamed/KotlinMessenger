@@ -9,6 +9,7 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 class User(val uid: String, val username: String, val profileImageUrl: String) : Parcelable {
  // we added this secondary constructor because we need to use
- // constructor that take no args when fetch data from firebase
+ // constructor that take no args when fetch data from firebase and assign the values that will assign
+ // to the primary constructor
   constructor() : this("", "", "")
 }

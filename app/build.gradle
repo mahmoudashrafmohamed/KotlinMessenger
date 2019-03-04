@@ -4,7 +4,7 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
-// To enable parcelize anootation
+// To enable auto parcel
 androidExtensions {
     experimental = true
 }
