@@ -17,7 +17,7 @@ import com.mahmoud_ashraf.kotlinmessenger.registerlogin.RegisterActivity
 
 class LatestMessagesActivity : AppCompatActivity() {
 
-    companion object {
+   companion object {
         var currentUser: User? = null
     }
 

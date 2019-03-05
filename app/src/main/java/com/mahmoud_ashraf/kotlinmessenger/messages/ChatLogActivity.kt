@@ -4,10 +4,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.ChildEventListener
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import com.letsbuildthatapp.kotlinmessenger.models.ChatMessage
 import com.mahmoud_ashraf.kotlinmessenger.R
 import com.mahmoud_ashraf.kotlinmessenger.adapters.ChatFromItem
@@ -22,6 +19,7 @@ class ChatLogActivity : AppCompatActivity() {
     companion object {
         val TAG = "ChatLog"
     }
+
 
     val adapter = GroupAdapter<ViewHolder>()
 
@@ -49,7 +47,11 @@ class ChatLogActivity : AppCompatActivity() {
     coming messages
      */
     private fun listenForMessages() {
-        val ref = FirebaseDatabase.getInstance().getReference("/messages")
+     //   val ref = FirebaseDatabase.getInstance().getReference("/messages")
+        val fromId = FirebaseAuth.getInstance().uid
+        val user = intent.getParcelableExtra<User>(NewMessageActivity.USER_KEY)
+        val toId = user?.uid
+        val ref = FirebaseDatabase.getInstance().getReference("/user-messages/$fromId/$toId")
 
         /*
         add listener to update adapter if any change in firebase db happened....
@@ -65,7 +67,9 @@ class ChatLogActivity : AppCompatActivity() {
 
 
                     if (chatMessage.fromId == FirebaseAuth.getInstance().uid) {
-                        adapter.add(ChatToItem(chatMessage.text,LatestMessagesActivity.currentUser!! ))
+
+                      adapter.add(ChatToItem(chatMessage.text,LatestMessagesActivity.currentUser!! ))
+
                     } else {
                         // the user that i select to chat with him =))
                         val user = intent.getParcelableExtra<User>(NewMessageActivity.USER_KEY)
@@ -105,14 +109,23 @@ class ChatLogActivity : AppCompatActivity() {
 
         if (fromId == null) return
 
+        val reference = FirebaseDatabase.getInstance().getReference("/user-messages/$fromId/$toId").push()
+
+        val toReference = FirebaseDatabase.getInstance().getReference("/user-messages/$toId/$fromId").push()
+
         // push is automaticaaly generate an key to save our object (value) in it
-        val reference = FirebaseDatabase.getInstance().getReference("/messages").push()
+    //    val reference = FirebaseDatabase.getInstance().getReference("/messages").push()
 
         val chatMessage = ChatMessage(reference.key!!, text, fromId, toId, System.currentTimeMillis() / 1000)
+
         reference.setValue(chatMessage)
             .addOnSuccessListener {
                 Log.d(TAG, "Saved our chat message: ${reference.key}")
+                edittext_chat_log.text.clear()
+                recyclerview_chat_log.scrollToPosition(adapter.itemCount - 1)
             }
+
+        toReference.setValue(chatMessage)
     }
 
 }
