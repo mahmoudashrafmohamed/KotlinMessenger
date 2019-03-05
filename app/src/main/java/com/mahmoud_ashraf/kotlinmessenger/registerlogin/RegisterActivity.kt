@@ -46,6 +46,8 @@ class RegisterActivity : AppCompatActivity() {
             // launch the login activity somehow
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
+
+            overridePendingTransition(R.anim.enter, R.anim.exit)
         }
 
         selectphoto_button_register.setOnClickListener {
