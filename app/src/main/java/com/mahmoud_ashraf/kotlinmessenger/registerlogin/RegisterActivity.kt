@@ -18,21 +18,22 @@ import kotlinx.android.synthetic.main.activity_register.*
 import java.util.*
 
 class RegisterActivity : AppCompatActivity() {
-    /**By declaring a companion object inside our class,
+    /*By declaring a companion object inside our class,
     you’ll be able to call its members with the same syntax as calling static methods in Java/C#,
     using only the class name as a qualifier*/
     companion object {
-        val TAG = "RegisterActivity"
+        val TAG = RegisterActivity::class.java.simpleName!!
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-        supportActionBar!!.elevation = 0.0f
+        supportActionBar?.elevation = 0.0f
 
         // you can access view in kotlin by its id only
-        val email = username_edittext_register.text.toString()
+        val email = email_edittext_register.text.toString()
         val password = password_edittext_register.text.toString()
+        val name = name_edittext_register.text.toString()
 
         // in kotlin FORGET findViewById ..... ;)
         register_button_register.setOnClickListener {
@@ -83,9 +84,10 @@ class RegisterActivity : AppCompatActivity() {
     private fun performRegister(){
         val email = email_edittext_register.text.toString()
         val password = password_edittext_register.text.toString()
+        val name = name_edittext_register.text.toString()
 
-        if (email.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this, "Please enter text in email/pw", Toast.LENGTH_SHORT).show()
+        if (email.isEmpty() || password.isEmpty() || name.isEmpty()) {
+            Toast.makeText(this, "Please fill all the fields", Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -104,12 +106,15 @@ class RegisterActivity : AppCompatActivity() {
             }
             .addOnFailureListener{
                 Log.d("Main", "Failed to create user: ${it.message}")
-                Toast.makeText(this, "Failed to create user: ${it.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Failed to create user: ${it.message}", Toast.LENGTH_LONG).show()
             }
     }
 
     private fun uploadImageToFirebaseStorage() {
-        if (selectedPhotoUri == null) return
+        if (selectedPhotoUri == null) {
+            // save user without photo
+            saveUserToFirebaseDatabase(null)
+        } else {
 
         //(Java UUID Generator) to generate unique ID
         val filename = UUID.randomUUID().toString()
@@ -130,17 +135,23 @@ class RegisterActivity : AppCompatActivity() {
             .addOnFailureListener {
                 Log.d(TAG, "Failed to upload image to storage: ${it.message}")
             }
-    }
+    }}
 
     /**
      * add users data to firebase database
      */
-    private fun saveUserToFirebaseDatabase(profileImageUrl: String) {
+    private fun saveUserToFirebaseDatabase(profileImageUrl: String?) {
         val uid = FirebaseAuth.getInstance().uid ?: ""
         // ref is look like a key in json need a value to set to it :)
         val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
 
-        val user = User(uid, username_edittext_register.text.toString(), profileImageUrl)
+        val user : User
+
+              user = if (profileImageUrl == null) {
+            User(uid, name_edittext_register.text.toString(), null)
+        } else {
+            User(uid, name_edittext_register.text.toString(), profileImageUrl)
+        }
 
         /**
          * in the first time you call setValue method
@@ -157,6 +168,7 @@ class RegisterActivity : AppCompatActivity() {
             }
             .addOnFailureListener {
                 Log.d(TAG, "Failed to set value to database: ${it.message}")
+
             }
     }
 }

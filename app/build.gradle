@@ -51,6 +51,10 @@ dependencies {
 
     implementation 'com.android.support:multidex:1.0.1'
 
+    implementation 'io.saeid:fab-loading:1.0.0'
+    implementation 'com.roger.catloadinglibrary:catloadinglibrary:1.0.4'
+    implementation 'io.supercharge:funnyloader:0.2.0'
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'

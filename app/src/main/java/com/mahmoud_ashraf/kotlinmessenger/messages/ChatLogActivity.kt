@@ -31,7 +31,7 @@ class ChatLogActivity : AppCompatActivity() {
        // val username = intent.getStringExtra(NewMessageActivity.USER_KEY)
         val user = intent.getParcelableExtra<User>(NewMessageActivity.USER_KEY)
         // change the title of action bar
-        supportActionBar?.title = user.username
+        supportActionBar?.title = user.name
 
 
         //setupDummyData()
