@@ -63,10 +63,13 @@ class ChatLogActivity : AppCompatActivity() {
                     Log.d(TAG, chatMessage.text)
 
 
+
                     if (chatMessage.fromId == FirebaseAuth.getInstance().uid) {
-                        adapter.add(ChatToItem(chatMessage.text))
+                        adapter.add(ChatToItem(chatMessage.text,LatestMessagesActivity.currentUser!! ))
                     } else {
-                        adapter.add(ChatFromItem(chatMessage.text))
+                        // the user that i select to chat with him =))
+                        val user = intent.getParcelableExtra<User>(NewMessageActivity.USER_KEY)
+                        adapter.add(ChatFromItem(chatMessage.text,user))
                     }
                 }
 
@@ -111,19 +114,5 @@ class ChatLogActivity : AppCompatActivity() {
                 Log.d(TAG, "Saved our chat message: ${reference.key}")
             }
     }
-    /*
-       run the test on chat log recycler
-        */
-    private fun setupDummyData() {
-        val adapter = GroupAdapter<ViewHolder>()
 
-        adapter.add(ChatFromItem("FROM MESSSSSSSSAAGE"))
-        adapter.add(ChatToItem("TO MESSAGE\nTOMESSAGE"))
-        adapter.add(ChatFromItem("FROM MESSSSSSSSAAGE"))
-        adapter.add(ChatToItem("TO MESSAGE\nTOMESSAGE"))
-        adapter.add(ChatFromItem("FROM MESSSSSSSSAAGE"))
-        adapter.add(ChatToItem("TO MESSAGE\nTOMESSAGE"))
-
-        recyclerview_chat_log.adapter = adapter
-    }
 }
