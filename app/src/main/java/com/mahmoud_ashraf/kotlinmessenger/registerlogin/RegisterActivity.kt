@@ -28,6 +28,7 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
+        supportActionBar!!.elevation = 0.0f
 
         // you can access view in kotlin by its id only
         val email = username_edittext_register.text.toString()
