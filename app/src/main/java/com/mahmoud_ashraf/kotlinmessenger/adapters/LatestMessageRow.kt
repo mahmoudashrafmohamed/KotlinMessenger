@@ -44,7 +44,7 @@ class LatestMessageRow(val chatMessage: ChatMessage): Item<ViewHolder>() {
             }
 
         })
-       viewHolder.itemView.message_textview_latest_message.text = chatMessage.text
+       viewHolder.itemView.latest_message_textview.text = chatMessage.text
     }
 
     override fun getLayout(): Int {

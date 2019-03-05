@@ -29,16 +29,12 @@ class LatestMessagesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_latest_messages)
 
-        recyclerview_latest_messages.adapter = adapter
-
-
-
-        // adding divider
-        recyclerview_latest_messages.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
-
-        listenForLatestMessages()
-
         verifyUserIsLoggedIn()
+        recyclerview_latest_messages.adapter = adapter
+        swiperefresh.setColorSchemeColors(resources.getColor(R.color.colorAccent))
+
+        fetchCurrentUser()
+        listenForLatestMessages()
 
         adapter.setOnItemClickListener { item, view ->
             val intent = Intent(this,ChatLogActivity::class.java)
@@ -51,6 +47,12 @@ class LatestMessagesActivity : AppCompatActivity() {
             val intent = Intent(this, NewMessageActivity::class.java)
             startActivity(intent)
         }
+
+        swiperefresh.setOnRefreshListener {
+            verifyUserIsLoggedIn()
+            fetchCurrentUser()
+            listenForLatestMessages()
+        }
     }
     val latestMessagesMap = HashMap<String, ChatMessage>()
 
@@ -59,8 +61,11 @@ class LatestMessagesActivity : AppCompatActivity() {
         latestMessagesMap.values.forEach {
             adapter.add(LatestMessageRow(it))
         }
+        swiperefresh.isRefreshing = false
     }
     private fun listenForLatestMessages() {
+        swiperefresh.isRefreshing = true
+
         val fromId = FirebaseAuth.getInstance().uid
         val ref = FirebaseDatabase.getInstance().getReference("/latest-messages/$fromId")
         ref.addChildEventListener(object: ChildEventListener {
@@ -117,8 +122,6 @@ class LatestMessagesActivity : AppCompatActivity() {
             val intent = Intent(this, RegisterActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
-        }else{
-            fetchCurrentUser()
         }
     }
 

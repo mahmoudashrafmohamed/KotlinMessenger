@@ -16,7 +16,10 @@ class ChatFromItem(val text : String , val user: User): Item<ViewHolder>() {
 
         val uri = user.profileImageUrl
         val targetImageView = viewHolder.itemView.imageview_chat_from_row
-        Picasso.get().load(uri).into(targetImageView)
+       // Picasso.get().load(uri).into(targetImageView)
+        if (!user.profileImageUrl!!.isEmpty()) {
+            Picasso.get().load(user.profileImageUrl).placeholder(R.drawable.no_image2).into(targetImageView)
+        }
     }
 
     override fun getLayout(): Int {
