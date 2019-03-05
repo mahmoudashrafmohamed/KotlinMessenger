@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
-    tools:context=".registerlogin.LoginActivity">
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary">
 
     <EditText
             android:id="@+id/email_edittext_login"
             android:layout_width="0dp"
             android:layout_height="50dp"
+            android:layout_marginBottom="160dp"
             android:layout_marginEnd="32dp"
-            android:layout_marginLeft="32dp"
-            android:layout_marginRight="32dp"
             android:layout_marginStart="32dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/rounded_edittext_register_login"
@@ -21,12 +19,11 @@
             android:hint="Email"
             android:inputType="textEmailAddress"
             android:paddingLeft="16dp"
-            app:layout_constraintHorizontal_bias="0.0"
-            android:layout_marginBottom="160dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"/>
 
     <EditText
             android:id="@+id/password_edittext_login"
@@ -35,13 +32,13 @@
             android:layout_marginTop="8dp"
             android:background="@drawable/rounded_edittext_register_login"
             android:ems="10"
-            android:paddingLeft="16dp"
             android:hint="Password"
             android:inputType="textPassword"
-            app:layout_constraintHorizontal_bias="0.0"
+            android:paddingLeft="16dp"
             app:layout_constraintEnd_toEndOf="@+id/email_edittext_login"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/email_edittext_login"
-            app:layout_constraintTop_toBottomOf="@+id/email_edittext_login" />
+            app:layout_constraintTop_toBottomOf="@+id/email_edittext_login"/>
 
     <Button
             android:id="@+id/login_button_login"
@@ -49,12 +46,13 @@
             android:layout_height="50dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/rounded_button"
+            style="?android:attr/borderlessButtonStyle"
+            android:text="Login"
             android:textColor="@android:color/white"
             android:textStyle="bold"
-            android:text="Login"
             app:layout_constraintEnd_toEndOf="@+id/password_edittext_login"
             app:layout_constraintStart_toStartOf="@+id/password_edittext_login"
-            app:layout_constraintTop_toBottomOf="@+id/password_edittext_login" />
+            app:layout_constraintTop_toBottomOf="@+id/password_edittext_login"/>
 
     <TextView
             android:id="@+id/back_to_register_textview"
@@ -71,5 +69,21 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/login_button_login"
             app:layout_constraintStart_toStartOf="@+id/login_button_login"
-            app:layout_constraintTop_toBottomOf="@+id/login_button_login" />
+            app:layout_constraintTop_toBottomOf="@+id/login_button_login"/>
+
+    <com.wang.avi.AVLoadingIndicatorView
+            android:id="@+id/loading_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="20dp"
+            android:visibility="gone"
+            app:indicatorColor="@color/colorAccent"
+            app:indicatorName="SemiCircleSpinIndicator"
+            app:layout_constraintEnd_toEndOf="@+id/login_button_login"
+            app:layout_constraintStart_toStartOf="@+id/login_button_login"
+            app:layout_constraintTop_toBottomOf="@+id/login_button_login"/>
+
 </android.support.constraint.ConstraintLayout>
