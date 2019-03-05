@@ -12,6 +12,7 @@ import com.google.firebase.database.*
 import com.letsbuildthatapp.kotlinmessenger.models.ChatMessage
 import com.mahmoud_ashraf.kotlinmessenger.R
 import com.mahmoud_ashraf.kotlinmessenger.adapters.LatestMessageRow
+import com.mahmoud_ashraf.kotlinmessenger.messages.NewMessageActivity.Companion.USER_KEY
 import com.mahmoud_ashraf.kotlinmessenger.models.User
 import com.mahmoud_ashraf.kotlinmessenger.registerlogin.RegisterActivity
 import com.xwray.groupie.GroupAdapter
@@ -30,12 +31,21 @@ class LatestMessagesActivity : AppCompatActivity() {
 
         recyclerview_latest_messages.adapter = adapter
 
+
+
         // adding divider
         recyclerview_latest_messages.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
 
         listenForLatestMessages()
 
         verifyUserIsLoggedIn()
+
+        adapter.setOnItemClickListener { item, view ->
+            val intent = Intent(this,ChatLogActivity::class.java)
+            val row = item as LatestMessageRow
+            intent.putExtra(USER_KEY, row.chatPartnerUser)
+            startActivity(intent)
+        }
     }
     val latestMessagesMap = HashMap<String, ChatMessage>()
 
