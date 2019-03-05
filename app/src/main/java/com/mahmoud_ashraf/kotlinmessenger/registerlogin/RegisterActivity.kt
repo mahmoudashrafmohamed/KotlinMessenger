@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
@@ -93,8 +94,8 @@ class RegisterActivity : AppCompatActivity() {
             return
         }
 
-        Log.d("RegisterActivity", "Email is: " + email)
-        Log.d("RegisterActivity", "Password: $password")
+        already_have_account_text_view.visibility = View.GONE
+        loading_view.visibility = View.VISIBLE
 
         // Firebase Authentication to create a user with email and password
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
@@ -108,6 +109,8 @@ class RegisterActivity : AppCompatActivity() {
             }
             .addOnFailureListener{
                 Log.d("Main", "Failed to create user: ${it.message}")
+                loading_view.visibility = View.GONE
+                already_have_account_text_view.visibility = View.VISIBLE
                 Toast.makeText(this, "Failed to create user: ${it.message}", Toast.LENGTH_LONG).show()
             }
     }
@@ -136,6 +139,8 @@ class RegisterActivity : AppCompatActivity() {
             }
             .addOnFailureListener {
                 Log.d(TAG, "Failed to upload image to storage: ${it.message}")
+                loading_view.visibility = View.GONE
+                already_have_account_text_view.visibility = View.VISIBLE
             }
     }}
 
@@ -170,6 +175,8 @@ class RegisterActivity : AppCompatActivity() {
             }
             .addOnFailureListener {
                 Log.d(TAG, "Failed to set value to database: ${it.message}")
+                loading_view.visibility = View.GONE
+                already_have_account_text_view.visibility = View.VISIBLE
 
             }
     }
