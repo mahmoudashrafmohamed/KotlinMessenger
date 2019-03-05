@@ -46,6 +46,11 @@ class LatestMessagesActivity : AppCompatActivity() {
             intent.putExtra(USER_KEY, row.chatPartnerUser)
             startActivity(intent)
         }
+
+        new_message_fab.setOnClickListener {
+            val intent = Intent(this, NewMessageActivity::class.java)
+            startActivity(intent)
+        }
     }
     val latestMessagesMap = HashMap<String, ChatMessage>()
 
@@ -124,11 +129,6 @@ class LatestMessagesActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-
-            R.id.menu_new_message -> {
-                val intent = Intent(this, NewMessageActivity::class.java)
-                startActivity(intent)
-            }
 
             R.id.menu_sign_out -> {
                 FirebaseAuth.getInstance().signOut()
