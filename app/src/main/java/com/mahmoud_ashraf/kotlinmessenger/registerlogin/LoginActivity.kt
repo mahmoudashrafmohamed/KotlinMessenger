@@ -10,7 +10,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.mahmoud_ashraf.kotlinmessenger.messages.LatestMessagesActivity
 import com.mahmoud_ashraf.kotlinmessenger.R
 import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.activity_register.*
+
 
 class LoginActivity : AppCompatActivity() {
 
